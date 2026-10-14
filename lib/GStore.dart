@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_workshops_5sae1_2627/FilmCardItem.dart';
 import 'Film.dart';
+import 'favorites_page.dart';
 import 'update_profile.dart';
 import 'sign_in.dart';
 
@@ -164,6 +165,18 @@ class _GstoreState extends State<Gstore> {
                     onTap: () {
                       Navigator.pop(context);
                       _openProfile();
+                    },
+                    primaryColor: primaryColor,
+                  ),
+                  _DrawerItem(
+                    icon: Icons.favorite_border,
+                    label: 'Mes favoris',
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const FavoritesPage()),
+                      );
                     },
                     primaryColor: primaryColor,
                   ),

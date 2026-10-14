@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Film.dart';
+import 'favorites.dart';
 
 class FilmDetail extends StatelessWidget {
   final Film film;
@@ -141,40 +142,52 @@ class FilmDetail extends StatelessWidget {
                       ),
                       const SizedBox(width: 16),
                       Expanded(
-                        child: OutlinedButton.icon(
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  '${film.title} ajouté aux favoris',
+                        child: ValueListenableBuilder<List<Film>>(
+                          valueListenable: favoritesNotifier,
+                          builder: (context, favorites, _) {
+                            final favorite = favorites.contains(film);
+                            return OutlinedButton.icon(
+                              onPressed: () {
+                                toggleFavorite(film);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      favorite
+                                          ? '${film.title} retiré des favoris'
+                                          : '${film.title} ajouté aux favoris',
+                                    ),
+                                    backgroundColor: Colors.grey[800],
+                                    behavior: SnackBarBehavior.floating,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                );
+                              },
+                              icon: Icon(
+                                favorite ? Icons.favorite : Icons.favorite_border,
+                                size: 22,
+                              ),
+                              label: const Text(
+                                'Favoris',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                                backgroundColor: Colors.grey[800],
-                                behavior: SnackBarBehavior.floating,
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: const Color(0xFF6C63FF),
+                                side: const BorderSide(
+                                  color: Color(0xFF6C63FF),
+                                  width: 2,
+                                ),
+                                padding: const EdgeInsets.symmetric(vertical: 16),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
                             );
                           },
-                          icon: const Icon(Icons.favorite_border, size: 22),
-                          label: const Text(
-                            'Favoris',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: const Color(0xFF6C63FF),
-                            side: const BorderSide(
-                              color: Color(0xFF6C63FF),
-                              width: 2,
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
                         ),
                       ),
                     ],

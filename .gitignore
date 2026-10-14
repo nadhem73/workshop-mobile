@@ -43,3 +43,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Copie locale de la base SQLite de l emulateur
+gstore.db
